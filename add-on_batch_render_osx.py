@@ -91,10 +91,10 @@ def createBatchFile():
     f = open(batch_file, 'w')
     f.close()
     os.system('chmod +x ' + batch_file)
-    
-    
+
+
 def doesAtomExist():
-    return 
+    return
 
 
 #panel class
@@ -115,7 +115,7 @@ class MyPanel(bpy.types.Panel):
             createBatchFile()
         layout.label('In Queue: ' + str(getQueueLength()))
         col = layout.column(align = True)
-        col.operator('script.operator_add_to_queue', text="Add Current File To Queue")
+        col.operator('script.operator_add_to_queue', text="Add To Queue")
         col.operator('script.operator_clear_queue', text="Clear Queue")
         col.operator('script.operator_edit_queue', text="Edit Queue In Atom")
         col.operator('script.operator_open_folder', text="Open Folder")
@@ -129,6 +129,11 @@ class MyOperator_add_to_queue(bpy.types.Operator):
     bl_label = 'Add To Queue'
     bl_idname = 'script.operator_add_to_queue'
     bl_options = {'REGISTER', 'UNDO'}
+
+    #poll - if the .blend file is not saved, it cannot be added to the queue
+    @classmethod
+    def poll(cls, context):
+        return bpy.data.is_saved
 
     #execute
     def execute(self, context):
@@ -145,6 +150,10 @@ class MyOperator_clear_queue(bpy.types.Operator):
     bl_idname = 'script.operator_clear_queue'
     bl_options = {'REGISTER', 'UNDO'}
 
+    @classmethod
+    def poll(cls, context):
+        return getQueueLength() > 0
+
     #execute
     def execute(self, context):
         main_clear_queue()
@@ -159,7 +168,7 @@ class MyOperator_edit_queue(bpy.types.Operator):
     bl_label = 'Edit Queue'
     bl_idname = 'script.operator_edit_queue'
     bl_options = {'REGISTER', 'UNDO'}
-    
+
     #poll
     @classmethod
     def poll(cls, context):
@@ -197,13 +206,14 @@ def register():
 
 
 def unregister():
-    bpy.utils.register_class(MyPanel)
-    bpy.utils.register_class(MyOperator_add_to_queue)
-    bpy.utils.register_class(MyOperator_edit_queue)
-    bpy.utils.register_class(MyOperator_open_folder)
-    bpy.utils.register_class(MyOperator_clear_queue)
+    bpy.utils.unregister_class(MyPanel)
+    bpy.utils.unregister_class(MyOperator_add_to_queue)
+    bpy.utils.unregister_class(MyOperator_edit_queue)
+    bpy.utils.unregister_class(MyOperator_open_folder)
+    bpy.utils.unregister_class(MyOperator_clear_queue)
 
 
 #enable to test the addon by running this script
 if __name__ == '__main__':
     register()
+
