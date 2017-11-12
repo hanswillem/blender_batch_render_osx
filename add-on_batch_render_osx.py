@@ -150,6 +150,7 @@ class MyOperator_clear_queue(bpy.types.Operator):
     bl_idname = 'script.operator_clear_queue'
     bl_options = {'REGISTER', 'UNDO'}
 
+    #poll - if there is nothing in the queue, the queue cannot be cleared
     @classmethod
     def poll(cls, context):
         return getQueueLength() > 0
