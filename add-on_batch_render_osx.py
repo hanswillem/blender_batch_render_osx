@@ -96,10 +96,6 @@ def createBatchFile():
     os.system('chmod +x ' + batch_file)
 
 
-def doesAtomExist():
-    return
-
-
 #panel class
 class MyPanel(bpy.types.Panel):
 
