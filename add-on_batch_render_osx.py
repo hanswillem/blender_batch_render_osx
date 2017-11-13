@@ -79,7 +79,10 @@ def getQueueLength():
 
 def removeDuplicates():
     f = open(batch_file, 'r')
-    l = set([i for i in f])
+    l = []
+    for i in f:
+        if i not in l:
+            l.append(i)
     f.close()
     f = open(batch_file, 'w')
     for i in l:
@@ -92,7 +95,11 @@ def createBatchFile():
     f.close()
     os.system('chmod +x ' + batch_file)
 
-    
+
+def doesAtomExist():
+    return
+
+
 #panel class
 class MyPanel(bpy.types.Panel):
 
@@ -146,7 +153,6 @@ class MyOperator_clear_queue(bpy.types.Operator):
     bl_idname = 'script.operator_clear_queue'
     bl_options = {'REGISTER', 'UNDO'}
 
-    #poll - if there is nothing in the queue, the queue cannot be cleared
     @classmethod
     def poll(cls, context):
         return getQueueLength() > 0
@@ -213,4 +219,3 @@ def unregister():
 #enable to test the addon by running this script
 if __name__ == '__main__':
     register()
-
