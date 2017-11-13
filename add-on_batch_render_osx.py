@@ -114,10 +114,10 @@ class MyPanel(bpy.types.Panel):
             createBatchFile()
         layout.label('In Queue: ' + str(getQueueLength()))
         col = layout.column(align = True)
-        col.operator('script.operator_add_to_queue', text="Add To Queue")
-        col.operator('script.operator_clear_queue', text="Clear Queue")
-        col.operator('script.operator_edit_queue', text="Edit Queue In Atom")
-        col.operator('script.operator_open_folder', text="Open Folder")
+        col.operator('script.operator_add_to_queue', text = 'Add To Queue')
+        col.operator('script.operator_clear_queue', text = 'Clear Queue')
+        col.operator('script.operator_edit_queue', text = 'Edit Queue In Atom')
+        col.operator('script.operator_open_folder', text = 'Open Folder')
 
 
 #operator class
