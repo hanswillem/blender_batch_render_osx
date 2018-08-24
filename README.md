@@ -1,6 +1,6 @@
 # Blender Batch Render
 
-#### Put multiple .blend files in a render queue and render them in one go as a background job. It's also possible to make multiple machines render the same queue together.
+#### Put multiple .blend files in a render queue and render them in one go as a background job. It's also possible to render different renderlayers as seperate image sequences.
 
 ### Install instructions
 
