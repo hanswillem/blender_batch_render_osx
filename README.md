@@ -1,5 +1,7 @@
 # Blender Batch Render 
 
+Blender version 2.79
+
 #### Put multiple .blend files in a render queue and render them in one go as a background job. It's also possible to render different renderlayers as seperate image sequences.
 
 ### Install instructions
@@ -19,4 +21,4 @@ The Add-on is pretty straightforward. You can add .blend files to the queue, and
 When this button is clicked, every renderlayer of the open file is added to the queue as a seperate file. This makes it possible to render every renderlayer as a seperate image sequence.
 
 
-Blender version 2.79
+
