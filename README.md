@@ -14,6 +14,6 @@ Start Blender and install *add-on_batch_render_windows.py* as a Blender Add-on. 
 
 The Add-on is pretty straightforward. You can add .blend files to the queue, and clear the queue. You can't start rendering from the Add-on directly because Blender would freeze until all the files are rendered. Instead, click on *Open Folder* and then double click on *batch_render.command*. Blender then starts rendering all the files in the queue as a background job.  
 
-### Add layers To Queue You
+### Add layers To Queue
 
 When this button is clicked, every renderlayer of the open file is added to the queue as a seperate file. This makes it possible to render every renderlayer as a seperate image sequence.
