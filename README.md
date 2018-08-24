@@ -1,4 +1,4 @@
-# Blender Batch Render
+# Blender Batch Render for Blender 2.79
 
 #### Put multiple .blend files in a render queue and render them in one go as a background job. It's also possible to render different renderlayers as seperate image sequences.
 
