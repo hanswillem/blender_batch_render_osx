@@ -42,10 +42,13 @@ batch_file = '/Users/hanswillemgijzel/Documents/blender_batch_render/batch_rende
 
 
 #the main functions called by the operators
-def main_add_to_queue():
+def main_add_to_queue(a = None):
     print('adding to queue...')
     f = open(batch_file, 'a')
-    render_string = '"' + bpy.app.binary_path + '" -b "' + str(bpy.data.filepath) + '" -x 1 -a' + '\n'
+    if a == None:
+        render_string = '"' + bpy.app.binary_path + '" -b "' + str(bpy.data.filepath) + '" -x 1 -a' + '\n'
+    else:
+        render_string = '"' + bpy.app.binary_path + '" -b "' + a + '" -x 1 -a' + '\n'
     f.write(render_string)
     f.close()
 
@@ -60,6 +63,26 @@ def main_clear_queue():
 def main_open_folder():
     print('opening folder...')
     os.system('open ' + (os.path.dirname(batch_file)))
+
+
+
+def main_add_layers_to_queue():
+    print('saving render layers as files...')
+    fn = os.path.basename(bpy.data.filepath) #blendfile
+    fn_ne = os.path.splitext(fn)[0] #blendfile without extension
+    dr = os.path.dirname(bpy.data.filepath) #path
+    outp = bpy.context.scene.render.filepath 
+    #itterate through layers
+    for i in bpy.context.scene.render.layers:
+        for j in bpy.context.scene.render.layers:
+            j.use = False;
+        i.use = True
+        nf = fn_ne  + '_' + i.name + '.blend' #new filename
+        nf_p = os.path.join(dr, nf) #new filename  including path
+        bpy.context.scene.render.filepath = outp + '[' + i.name + ']_'
+        bpy.ops.wm.save_as_mainfile(filepath = nf_p, copy = True) #save a copy of the blendfile
+
+        main_add_to_queue(nf_p)
 
 
 #helper functions
@@ -110,12 +133,13 @@ class MyPanel(bpy.types.Panel):
         layout.label('In Queue: ' + str(getQueueLength()))
         col = layout.column(align = True)
         col.operator('script.operator_add_to_queue', text = 'Add To Queue')
+        col.operator('script.operator_add_layers_to_queue', text = 'Add Layers To Queue')
         col.operator('script.operator_clear_queue', text = 'Clear Queue')
         col.operator('script.operator_open_folder', text = 'Open Folder')
 
 
 #operator class
-class MyOperator_add_to_queue(bpy.types.Operator):
+class MyOperator_add_layers_to_queue(bpy.types.Operator):
 
     #operator attributes
     """Add Current Blend File To The Queue"""
@@ -131,6 +155,26 @@ class MyOperator_add_to_queue(bpy.types.Operator):
     #execute
     def execute(self, context):
         main_add_to_queue()
+
+        return {'FINISHED'}
+
+
+class MyOperator_add_to_queue(bpy.types.Operator):
+
+    #operator attributes
+    """Add Current Layers As Blendfiles To The Queue"""
+    bl_label = 'Add Layers To Queue'
+    bl_idname = 'script.operator_add_layers_to_queue'
+    bl_options = {'REGISTER', 'UNDO'}
+
+    #poll - if the .blend file is not saved, the layers cannot be added to the queue
+    @classmethod
+    def poll(cls, context):
+        return bpy.data.is_saved
+
+    #execute
+    def execute(self, context):
+        main_add_layers_to_queue()
 
         return {'FINISHED'}
 
@@ -173,6 +217,7 @@ class MyOperator_open_folder(bpy.types.Operator):
 def register():
     bpy.utils.register_class(MyPanel)
     bpy.utils.register_class(MyOperator_add_to_queue)
+    bpy.utils.register_class(MyOperator_add_layers_to_queue)
     bpy.utils.register_class(MyOperator_open_folder)
     bpy.utils.register_class(MyOperator_clear_queue)
 
@@ -180,6 +225,7 @@ def register():
 def unregister():
     bpy.utils.unregister_class(MyPanel)
     bpy.utils.unregister_class(MyOperator_add_to_queue)
+    bpy.utils.unregister_class(MyOperator_add_layers_to_queue)
     bpy.utils.unregister_class(MyOperator_open_folder)
     bpy.utils.unregister_class(MyOperator_clear_queue)
 
