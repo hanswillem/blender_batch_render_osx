@@ -6,7 +6,7 @@
 
 Install Blender in the **default location** *(C:/Program Files/Blender Foundation/Blender/blender.exe)*. Download *add-on_batch_render_windows.py* and copy it to a folder. Look for the following line in the file  and edit it so that it points to that folder.
 ```python
-batch_file = 'P:/_blender_batch_render/batch_render.bat'
+batch_file = '/Users/your_user_name/Documents/blender_batch_render/batch_render.command'
 ```
 Start Blender and install *add-on_batch_render_windows.py* as a Blender Add-on. A new tab called *Batch Render* should show up in the Tools region (toggled on and off with the shortcut 't'). 
 
