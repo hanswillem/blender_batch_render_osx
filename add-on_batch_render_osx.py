@@ -115,12 +115,12 @@ def createBatchFile():
 
 
 #panel class
-class MyPanel(bpy.types.Panel):
+class MyPanel_batch_render(bpy.types.Panel):
 
     #panel attributes
     """Batch Render Panel Class"""
     bl_label = 'Batch Render'
-    bl_idname = 'tools_my_panel'
+    bl_idname = 'panel_batch_render'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = 'Batch Render'
@@ -215,7 +215,7 @@ class MyOperator_open_folder(bpy.types.Operator):
 
 #registration
 def register():
-    bpy.utils.register_class(MyPanel)
+    bpy.utils.register_class(MyPanel_batch_render)
     bpy.utils.register_class(MyOperator_add_to_queue)
     bpy.utils.register_class(MyOperator_add_layers_to_queue)
     bpy.utils.register_class(MyOperator_open_folder)
@@ -223,7 +223,7 @@ def register():
 
 
 def unregister():
-    bpy.utils.unregister_class(MyPanel)
+    bpy.utils.unregister_class(MyPanel_batch_render)
     bpy.utils.unregister_class(MyOperator_add_to_queue)
     bpy.utils.unregister_class(MyOperator_add_layers_to_queue)
     bpy.utils.unregister_class(MyOperator_open_folder)
