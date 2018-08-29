@@ -55,17 +55,6 @@ def main_add_to_queue(a = None):
     removeDuplicates()
 
 
-def main_clear_queue():
-    print('clearing the queue...')
-    createBatchFile()
-
-
-def main_open_folder():
-    print('opening folder...')
-    os.system('open ' + (os.path.dirname(batch_file)))
-
-
-
 def main_add_layers_to_queue():
     print('saving render layers as files...')
     fn = os.path.basename(bpy.data.filepath) #blendfile
@@ -83,6 +72,16 @@ def main_add_layers_to_queue():
         bpy.ops.wm.save_as_mainfile(filepath = nf_p, copy = True) #save a copy of the blendfile
 
         main_add_to_queue(nf_p)
+
+
+def main_clear_queue():
+    print('clearing the queue...')
+    createBatchFile()
+
+
+def main_open_folder():
+    print('opening folder...')
+    os.system('open ' + (os.path.dirname(batch_file)))
 
 
 #helper functions
@@ -135,11 +134,11 @@ class MyPanel_batch_render(bpy.types.Panel):
         col.operator('script.operator_add_to_queue', text = 'Add To Queue')
         col.operator('script.operator_add_layers_to_queue', text = 'Add Layers To Queue')
         col.operator('script.operator_clear_queue', text = 'Clear Queue')
-        col.operator('script.operator_open_folder', text = 'Open Folder')
+        col.operator('script.operator_open_bat_folder', text = 'Open Folder')
 
 
 #operator class
-class MyOperator_add_layers_to_queue(bpy.types.Operator):
+class MyOperator_add_to_queue(bpy.types.Operator):
 
     #operator attributes
     """Add Current Blend File To The Queue"""
@@ -159,7 +158,7 @@ class MyOperator_add_layers_to_queue(bpy.types.Operator):
         return {'FINISHED'}
 
 
-class MyOperator_add_to_queue(bpy.types.Operator):
+class MyOperator_add_layers_to_queue(bpy.types.Operator):
 
     #operator attributes
     """Add Current Layers As Blendfiles To The Queue"""
@@ -198,12 +197,12 @@ class MyOperator_clear_queue(bpy.types.Operator):
         return {'FINISHED'}
 
 
-class MyOperator_open_folder(bpy.types.Operator):
+class MyOperator_open_bat_folder(bpy.types.Operator):
 
     #operator attributes
     """Open the folder with the batch file"""
     bl_label = 'Open Folder'
-    bl_idname = 'script.operator_open_folder'
+    bl_idname = 'script.operator_open_bat_folder'
     bl_options = {'REGISTER', 'UNDO'}
 
     #execute
@@ -218,7 +217,7 @@ def register():
     bpy.utils.register_class(MyPanel_batch_render)
     bpy.utils.register_class(MyOperator_add_to_queue)
     bpy.utils.register_class(MyOperator_add_layers_to_queue)
-    bpy.utils.register_class(MyOperator_open_folder)
+    bpy.utils.register_class(MyOperator_open_bat_folder)
     bpy.utils.register_class(MyOperator_clear_queue)
 
 
@@ -226,7 +225,7 @@ def unregister():
     bpy.utils.unregister_class(MyPanel_batch_render)
     bpy.utils.unregister_class(MyOperator_add_to_queue)
     bpy.utils.unregister_class(MyOperator_add_layers_to_queue)
-    bpy.utils.unregister_class(MyOperator_open_folder)
+    bpy.utils.unregister_class(MyOperator_open_bat_folder)
     bpy.utils.unregister_class(MyOperator_clear_queue)
 
 
