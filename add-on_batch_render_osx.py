@@ -35,6 +35,7 @@ bl_info = {
 #imports
 import bpy
 import os
+import shutil
 
 
 #path to folder
@@ -59,8 +60,8 @@ def main_add_layers_to_queue():
     print('saving render layers as files...')
     fn = os.path.basename(bpy.data.filepath) #blendfile
     fn_ne = os.path.splitext(fn)[0] #blendfile without extension
-    dr = os.path.dirname(bpy.data.filepath) #path
-    outp = bpy.context.scene.render.filepath 
+    dr = getTempFolder() #path to temp folder
+    outp = bpy.context.scene.render.filepath #output path
     #itterate through layers
     for i in bpy.context.scene.render.layers:
         for j in bpy.context.scene.render.layers:
@@ -77,8 +78,11 @@ def main_add_layers_to_queue():
 
 
 def main_clear_queue():
-    print('clearing the queue...')
     createBatchFile()
+    print('clearing the queue...')
+    tempfolder = getTempFolder()
+    shutil.rmtree(tempfolder)
+    print('removing tempfolder...')
 
 
 def main_open_folder():
@@ -113,6 +117,16 @@ def createBatchFile():
     f = open(batch_file, 'w')
     f.close()
     os.system('chmod +x ' + batch_file)
+
+
+def getTempFolder():
+    tempdir = os.path.dirname(bpy.data.filepath)
+    tempfolder = os.path.join(tempdir, '_batch_render_temp_files')
+    if not os.path.exists(tempfolder):
+        print('creating temp folder') 
+        os.mkdir(tempfolder)
+        
+    return tempfolder
 
 
 #panel class
